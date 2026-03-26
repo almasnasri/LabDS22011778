@@ -1,7 +1,4 @@
-# TEB2164 Lab9b - Almas Nasri
-# Correlation & Normalization in R
-
-# === ACTIVITY 1: ToothGrowth Correlation ===
+# ACTIVITY 1
 data("ToothGrowth")
 numeric_tooth <- ToothGrowth[, c("len", "dose")]
 cor_matrix <- cor(numeric_tooth)
@@ -16,7 +13,7 @@ corrplot(cor_matrix, type="upper", order="hclust",
          col=brewer.pal(n=8, name="RdYlBu"))
 # Insight: Dose strongly predicts tooth growth length (r=0.803)
 
-# === ACTIVITY 2: Mtcars Normalization ===
+# ACTIVITY 2
 data(mtcars)
 
 cat("\n=== RAW DATA ===\n")
