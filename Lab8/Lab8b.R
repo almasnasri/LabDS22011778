@@ -1,9 +1,4 @@
-# TEB2164 Lab8b - Almas Nasri - March 2026
-# Task 1: Titanic Analysis (Lab7 files)
-# Task 2: Chickwts Built-in Dataset
-
-# ========================================
-# TASK 1: TITANIC (External Lab7 CSV)
+# TASK 1: TITANIC 
 setwd("C:/Users/almas/Documents/LabDS22011778/Lab7")
 titanic <- read.csv("titanic_sortbyfare.csv", stringsAsFactors=TRUE)
 
@@ -24,7 +19,6 @@ boxplot(Age ~ Survived, data=titanic,
         col=c("red", "green"))
 dev.off()
 
-# ========================================
 # TASK 2: CHICKWEIGHTS (Built-in R Dataset)
 data(chickwts)
 
