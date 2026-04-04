@@ -1,0 +1,57 @@
+---
+title: "Lab7b Report"
+author: "Almas Nasri" 
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(readxl)
+library(dplyr)
+```
+
+```{r data-load, include=FALSE}
+# Load and clean data (self-contained)
+uforeport <- read_excel("C:/Users/almas/Downloads/uforeport.xlsx")[,1:4]
+colnames(uforeport) <- c("Date_Time", "City", "State", "Colors.Reported")
+uforeport_cleaned <- na.omit(uforeport)
+
+titanic_cleaned <- na.omit(read.csv("C:/Users/almas/Downloads/titanic.csv"))
+```
+ 
+
+# Lab 7b: Data Frame Analysis Report
+
+## Titanic Survival Analysis
+
+```{r titanic-table, echo=FALSE}
+print(table(titanic_cleaned$Pclass, titanic_cleaned$Survived))
+```
+
+**Key Insights:**
+- **3rd Class Survival**: 85/355 survived (24%) - lowest rate
+- **Female Survival**: `r round(mean(titanic_cleaned$Survived[titanic_cleaned$Sex=="female"])*100,0)`% vs males `r round(mean(titanic_cleaned$Survived[titanic_cleaned$Sex=="male"])*100,0)`%
+- **Cherbourg 3rd Class Survivors**: `r nrow(filter(titanic_cleaned, Embarked=="C", Survived==1, Pclass==3))` passengers
+
+## UFO Sightings Analysis
+
+```{r ufo-tables, echo=FALSE}
+print("Top 5 States:")
+print(head(sort(table(uforeport_cleaned$State), decreasing=TRUE), 5))
+
+print("Top 5 Shapes:")
+print(head(sort(table(uforeport_cleaned$Colors.Reported), decreasing=TRUE), 5))
+```
+
+**Key Insights:**
+- **Top States**: CA(`r table(uforeport_cleaned$State)["CA"]`), WA(`r table(uforeport_cleaned$State)["WA"]`), TX(`r table(uforeport_cleaned$State)["TX"]`)
+- **Most Common Shape**: LIGHT (`r nrow(filter(uforeport_cleaned, grepl("LIGHT", Colors.Reported, ignore.case=TRUE)))` reports, 23%)
+- **Belton Sightings**: `r nrow(filter(uforeport_cleaned, City=="Belton"))` total reports
+
+## Technical Summary
+**Libraries Used**: readxl, dplyr ✓
+**Lab 7a Exports Generated**: ufogreen.xlsx, titanic_sort_byfare.csv
+**Data Cleaning**: NA removal, column renaming, filtering demonstrated
+
+---
+*Submitted by Almas Nasri - TEB2164 Introduction to Data Science*
