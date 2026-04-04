@@ -1,0 +1,108 @@
+---
+title: "Lab 8b Report — Visualizations (TEB2164)"
+author: "Almas Nasri"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 8, fig.height = 6, dpi = 120)
+lab7 <- "C:/Users/almas/Documents/LabDS22011778/Lab7"
+```
+
+## Purpose
+
+This report extends the Lab 7 analysis by adding **at least two plot types** from Lab 8a (bar chart and box plot) on the **same Titanic file** used in Lab 7 (`titanic_sort_byfare.csv`). It also uses the built-in **`chickwts`** dataset and interprets the charts as a short **“story”** for Task 2.
+
+---
+
+## Task 1 — Titanic (Lab 7 file)
+
+```{r titanic-load}
+titanic <- read.csv(file.path(lab7, "titanic_sort_byfare.csv"), stringsAsFactors = TRUE)
+tbl_ps <- table(titanic$Pclass, titanic$Survived)
+tbl_ps
+```
+
+### Bar chart — class and survival
+
+```{r titanic-bar}
+barplot(
+  tbl_ps,
+  beside = TRUE,
+  col = c("#d62728", "#2ca02c"),
+  main = "Titanic: Counts by Passenger Class and Survival",
+  xlab = "Passenger class",
+  ylab = "Count",
+  legend.text = c("Died", "Survived"),
+  args.legend = list(x = "topright", bty = "n", inset = 0.02)
+)
+```
+
+**Interpretation:** For each passenger class (1–3), the two bars compare the number who **died** versus **survived**. Third-class passengers have the largest **died** count; first class shows the strongest **survival** share relative to deaths. This supports the Lab 7 insight that **class was strongly linked to survival**.
+
+### Box plot — age by survival
+
+```{r titanic-box}
+boxplot(
+  Age ~ Survived,
+  data = titanic,
+  main = "Titanic: Age Distribution by Survival",
+  xlab = "Survived (0 = Died, 1 = Survived)",
+  ylab = "Age",
+  col = c("#d62728", "#2ca02c")
+)
+```
+
+**Interpretation:** Median ages are similar for both groups; both show many younger passengers. **Outliers** at high ages appear in both groups. The plot supports discussing age alongside class and sex in your written insights (narrow age difference alone does not explain survival).
+
+---
+
+## Task 2 — `chickwts` (built-in): story for a “manager”
+
+Imagine briefing a **farm operations manager** who must choose feed for broiler chicks. The dataset records **weight at six weeks** by **feed type** (`?chickwts` for details).
+
+```{r chick-load}
+data(chickwts)
+str(chickwts)
+```
+
+### How many chicks per feed?
+
+```{r chick-bar}
+feed_counts <- table(chickwts$feed)
+barplot(
+  feed_counts,
+  main = "Chicken Weights Dataset: Chicks by Feed Type",
+  xlab = "Feed type",
+  ylab = "Number of chicks",
+  col = "skyblue",
+  border = "darkblue"
+)
+```
+
+**Interpretation:** Counts per feed are **roughly balanced** (about 10–14 each), so differences in weight are **not** mainly due to unequal sample sizes.
+
+### Weight distribution by feed
+
+```{r chick-box}
+boxplot(
+  weight ~ feed,
+  data = chickwts,
+  main = "Chicken Weight by Feed Type (6 weeks)",
+  xlab = "Feed type",
+  ylab = "Weight at 6 weeks (g)",
+  col = c("lightblue", "lightgreen", "pink", "orange", "yellow", "violet"),
+  varwidth = TRUE,
+  notch = TRUE
+)
+```
+
+**Story (takeaway):** **Sunflower** and **casein** feeds show the **highest** typical weights; **horsebean** is clearly **lowest**. Notches and non-overlapping boxes suggest **meaningful median differences** between some feeds. A manager might shortlist **sunflower** or **casein** for trials, subject to cost and availability, and avoid **horsebean** if maximum weight at six weeks is the goal.
+
+---
+
+*TEB2164 Introduction to Data Science — Lab 8b*
